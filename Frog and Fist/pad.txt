@@ -1,0 +1,51 @@
+frog and fist
+
+MENU
+- Online
+-- Normal (character xp gain)
+-- Ranked (rank, character career, character xp gain)
+-- Custom (no xp gain)
+- Offline
+-- Local
+
+GAME MODE
+- FFA (4 players)
+- 2v2
+- 1v1
+- Last man standing
+- Bug eater (eat most bug, no buff)
+
+
+attack
+- hitbox </>
+- hurt </>
+- animation </>
+- knockback (distance *= damaged)
+- stunt when got attacked
+- block
+
+knocked out zone </>
+respawn </ no anim>
+spawn point </>
+
+mission to unlock new character
+
+character selection
+(character has single accessory)
+- color selection (change their accessory color)
+- signature ultimate skills
+- lore related perks
+
+flies
+- random buff
+- use tongue(?) to collect
+- gain ultimate point
+
+colorized player outline
+
+ULTIMATE POINT
+- attack (5) </>
+- flies (2) </>
+- hurt (1)
+
+character icon changed to ultimate skills icon when is ready
