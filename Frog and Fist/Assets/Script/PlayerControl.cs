@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    Animator animator;
     String Horizontal;
     String Vertical;
     KeyCode Down;
@@ -19,6 +17,7 @@ public class PlayerControl : MonoBehaviour
     public float jumpPower = 8f;
     public int maxJump = 2;
     int jumpRemain;
+    public float damageResist = 10;
 
     [Header("Ground Check")]
     public bool isGrounded;
@@ -33,15 +32,18 @@ public class PlayerControl : MonoBehaviour
     bool isDown;
 
     [Header("Reference")]
-    [SerializeField] public GameObject Hand;
     [SerializeField] GameObject spawn;
     [SerializeField] Collider2D Collider;
-    private GameObject curPlatform;
+    GameObject curPlatform; 
+    Rigidbody2D rb;
+    Animator animator;
+    PlayerCombat playerCombat;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerCombat = GetComponent<PlayerCombat>();
 
         animator.Play("idle");
         jumpRemain = maxJump;
@@ -81,11 +83,6 @@ public class PlayerControl : MonoBehaviour
         
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(groundCollider.position, 0.2f, groundLayer);
-
-        /*if(!alive){
-            StartCoroutine(Respawn());
-            if(isGrounded) alive = true;
-        }*/
         
         // Jump Function
         if(isJump && jumpRemain > 0){
@@ -117,17 +114,24 @@ public class PlayerControl : MonoBehaviour
 
     private IEnumerator Respawn(){
         yield return new WaitForSeconds(1);
-        transform.position = spawn.transform.position;
+
+        alive = true;
+        playerCombat.resetOnSpawn();
         rb.simulated = true;
+        rb.WakeUp();
+        transform.position = spawn.transform.position + new Vector3(0, 0.5f, 0);
+        rb.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(0.1f);
     }
 
 
     private void OnTriggerEnter2D(Collider2D other){
         if (other.gameObject.CompareTag("Finish")){
             Debug.Log($"{transform.name} Out!");
-            //alive = false;
-            rb.simulated = false;
+            alive = false;
             rb.velocity = Vector2.zero;
+            rb.simulated = false;
             StartCoroutine(Respawn());
         }
     }
